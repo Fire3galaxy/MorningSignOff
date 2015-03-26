@@ -12,16 +12,16 @@ The current structure of the application consists of 3 pages.
 Settings, subscription, etc. will be considered at a later time.
 
 ## Status
-### Front page 
+#### Front page 
 * List of categories 
 * Buttons with animation 
 * Split screen between picture and list (for latest news/article categories)
 
-### Networking
+#### Networking
 * Parsed categories pages into list of Article objects consisting of title, description, and link [Example of parsed page]
 (http://morningsignout.com/category/research/)
 
-### Team member goals
+#### Team member goals
 * Fire3galaxy - Working on creating activity for click event from front page to category
 
 ## Current goals
