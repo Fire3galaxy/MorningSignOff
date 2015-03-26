@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="vertical"
+    tools:context="morningsignoff.com.morningsignout.app.MainActivity">
+
+    <LinearLayout
+        android:id="@+id/container_headline"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        tools:layout="@android:layout/list_content"
+        android:orientation="horizontal" />
+
+    <!--<fragment-->
+        <!--android:id="@+id/fragment_main"-->
+        <!--android:name="app.morningsignout.com.morningsignoff.MainPageFragment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="4"-->
+        <!--tools:layout="@android:layout/list_content"/>-->
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        tools:context=".MainActivity" tools:ignore="MergeRootFrame"
+        android:background="@color/background_white" />
+
+</LinearLayout>
