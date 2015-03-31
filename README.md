@@ -26,6 +26,6 @@ Settings, subscription, etc. will be considered at a later time.
 * Fire3galaxy - Working on creating activity for click event from front page to category
 
 ## Current goals
-* Create activity to be created on clicking category buttons.
+* Edit CategoryActivity (created on clicking category buttons) with basic design.
 * Integrate network calls to new activity to load actual article data.
 * Integrate network calls to headline fragment in front page to show images/articles
