@@ -1,6 +1,7 @@
 # MorningSignOff
 
-This is the Android Studio project files for the Morning Signout application. (Name to be fixed later).
+This is the Android Studio project files for the Morning Signout application. (Name to be fixed later). [Here](https://docs.google.com/a/ucr.edu/spreadsheets/d/1-Pfw6cbV5IZ01HX5Jr5SAy4LkyPv6FfjX63tcdejp2U/edit?usp=sharing)'s the google link signifying current up-to-date progress, but this README is an in-depth explanation.
+
 
 ## Structure of Android Application
 The current structure of the application consists of 3 pages.
