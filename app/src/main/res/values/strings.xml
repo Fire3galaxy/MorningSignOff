@@ -8,7 +8,8 @@
     <string name="img_description">Here!</string>
     <string name="action_refresh">Refresh</string>
 
-    <string name="action_style">Style!</string> <!-- In menu_main.xml, we can add items to the action bar!
+    <string name="action_style">Style!</string>
+    <string name="title_activity_category">CategoryActivity</string> <!-- In menu_main.xml, we can add items to the action bar!
                                                      Set showAsAction to strings like never, ifRoom, etc to show!-->
 
 </resources>

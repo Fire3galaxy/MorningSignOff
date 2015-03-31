@@ -5,6 +5,7 @@ package app.morningsignout.com.morningsignoff;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -94,9 +95,14 @@ public class MainPageFragment extends Fragment {
         lv_frag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast toast = Toast.makeText(getActivity(), stringAdapter.getItem(position),
-                        Toast.LENGTH_SHORT);
-                toast.show();
+//            Glorious toast example before learning how to launch CategoryActivity!
+//            Toast toast = Toast.makeText(getActivity(), stringAdapter.getItem(position),
+//                Toast.LENGTH_SHORT);
+//            toast.show();
+
+                Intent categoryPageIntent = new Intent(getActivity(), CategoryActivity.class)
+                        .putExtra(Intent.EXTRA_TITLE, stringAdapter.getItem(position));
+                startActivity(categoryPageIntent);
             }
         });
 
