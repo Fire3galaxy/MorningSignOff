@@ -100,7 +100,7 @@ public class MainPageFragment extends Fragment {
 //                Toast.LENGTH_SHORT);
 //            toast.show();
 
-                Intent categoryPageIntent = new Intent(getActivity(), CategoryActivity.class)
+                Intent categoryPageIntent = new Intent(getActivity(), ArticleActivity.class)
                         .putExtra(Intent.EXTRA_TITLE, stringAdapter.getItem(position));
                 startActivity(categoryPageIntent);
             }
