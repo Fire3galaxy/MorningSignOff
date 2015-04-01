@@ -18,9 +18,10 @@ public class CategoryActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
+        super.getSupportActionBar().setDisplayHomeAsUpEnabled(true); //made back arrow in top left corner
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container_category, new PlaceholderFragment())
                     .commit();
         }
     }
