@@ -7,9 +7,13 @@
     <string name="good_morning">Good Morning!</string>
     <string name="img_description">Here!</string>
     <string name="action_refresh">Refresh</string>
+    <string name="article_image">Article Image</string>
+    <string name="author">The author of the journals</string>
+    <string name="article">A flash of blinding light engulfs all of Gravity Falls. Then, everything comes down to earth. The portal, now a mess of tangled wires and metal, glows bright blue. A figure emerges from the portal. The blue light fades behind him. He walks forward, placing a six-fingered hand on the cover of the first journal, then picks it up and places it into the inside pocket of a long, dark coat.</string>
 
     <string name="action_style">Style!</string>
-    <string name="title_activity_category">CategoryActivity</string> <!-- In menu_main.xml, we can add items to the action bar!
+    <string name="title_activity_category">CategoryActivity</string>
+    <string name="title_activity_article">ArticleActivity</string> <!-- In menu_main.xml, we can add items to the action bar!
                                                      Set showAsAction to strings like never, ifRoom, etc to show!-->
 
 </resources>

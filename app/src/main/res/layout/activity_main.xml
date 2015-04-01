@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:baselineAligned="false"
     android:orientation="vertical"
-    tools:context="morningsignoff.com.morningsignout.app.MainActivity">
+    tools:context="morningsignoff.com.morningsignout.app.MainActivity"
+    android:background="@android:color/white">
 
     <LinearLayout
         android:id="@+id/container_headline"
