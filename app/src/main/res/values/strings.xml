@@ -7,6 +7,7 @@
     <string name="good_morning">Good Morning!</string>
     <string name="img_description">Here!</string>
     <string name="action_refresh">Refresh</string>
+    <string name="latest_articles">Latest articles and images</string>
 
     <string name="action_style">Style!</string>
     <string name="title_activity_category">CategoryActivity</string> <!-- In menu_main.xml, we can add items to the action bar!

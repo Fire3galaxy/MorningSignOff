@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listview_headline"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageButton
-        android:id="@+id/container_headline"
+    <ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/imageButton_headline"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/gravityfallsteaser"
-        android:contentDescription="New articles"
+        android:contentDescription="@string/latest_articles"
         android:layout_gravity="center_horizontal"
         android:scaleType="fitXY" />
-</LinearLayout>
+</FrameLayout>
