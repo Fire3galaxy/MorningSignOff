@@ -39,8 +39,6 @@ public class MainPageFragment extends Fragment {
     public MainPageFragment() {
     }
 
-
-    // FIXME: All onCreate stuff besides onCreateView is for practice w/ internet. Not for this fragment!
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +48,7 @@ public class MainPageFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_refresh, menu);
+        inflater.inflate(R.menu.menu_main, menu);
     }
 
     @Override
@@ -100,9 +98,13 @@ public class MainPageFragment extends Fragment {
 //                Toast.LENGTH_SHORT);
 //            toast.show();
 
-                Intent categoryPageIntent = new Intent(getActivity(), ArticleActivity.class)
-                        .putExtra(Intent.EXTRA_TITLE, stringAdapter.getItem(position));
-                startActivity(categoryPageIntent);
+                // Add article link to new activity to download article
+                String article_test = "http://morningsignout.com/growth-factor-shows-" +
+                        "regenerative-effects-in-patients-with-parkinsons-disease/";
+                Intent articlePageIntent = new Intent(getActivity(), ArticleActivity.class)
+                        .putExtra(Intent.EXTRA_HTML_TEXT, article_test);
+                        //.putExtra(Intent.EXTRA_TITLE, stringAdapter.getItem(position));
+                startActivity(articlePageIntent);
             }
         });
 

@@ -15,7 +15,16 @@ import android.widget.TextView;
  * Created by Daniel on 3/2/2015.
  */
 public class ArticleFragment extends Fragment {
+    String html_link;
+
     public ArticleFragment() {
+        html_link = new String();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        html_link = getArguments().getString("HTML_LINK");
     }
 
     @Override
@@ -39,6 +48,7 @@ public class ArticleFragment extends Fragment {
         textViewAuthor_frag.setText(author);
 
         TextView textViewArticle_frag = (TextView) rootView.findViewById(R.id.textView_article);
+        textViewArticle_frag.setText(html_link);
 
         return rootView;
     }
