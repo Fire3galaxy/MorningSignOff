@@ -2,8 +2,6 @@ package app.morningsignout.com.morningsignoff;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.graphics.BitmapFactory;
@@ -13,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,20 +55,22 @@ public class HeadlineFragment extends Fragment {
 
         // Decide image to show based on index in list of images
         if (page_number == 0)
-            ib.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.gravityfallsteaser));
+            new DownloadImageTask(ib).execute(0);
+//            ib.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.gravityfallsteaser)); // Static imgs
         else if (page_number == 1)
-            new DownloadImageTask(ib).execute(imageURL); // Downloads image from link for HEADLINE
+            new DownloadImageTask(ib).execute(1);
         else if (page_number == 2)
-            ib.setImageResource(R.drawable.steven_universe_by_flafly_d6zv94s);
+            new DownloadImageTask(ib).execute(2);
+//            ib.setImageResource(R.drawable.steven_universe_by_flafly_d6zv94s); // Static imgs
 
         // When clicked, should open webview to article
         ib.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // FIXME: Use webview files from article view for this
-                // - From past me (Fire3galaxy): this code was done before headline and article were merged
-                Intent categoryPageIntent = new Intent(getActivity(), CategoryActivity.class);
-                startActivity(categoryPageIntent);
+            // FIXME: Use webview files from article view for this
+            // - From past me (Fire3galaxy): this code was done before headline and article were merged
+            Intent categoryPageIntent = new Intent(getActivity(), CategoryActivity.class);
+            startActivity(categoryPageIntent);
             }
         });
 
@@ -81,7 +80,7 @@ public class HeadlineFragment extends Fragment {
     // For downloading images from latest articles. Code partially from
     // http://developer.android.com/guide/components/processes-and-threads.html
     // http://stackoverflow.com/questions/2471935/how-to-load-an-imageview-by-url-in-android
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+    private class DownloadImageTask extends AsyncTask<Integer, Void, Bitmap> {
         ImageButton i;
 
         DownloadImageTask(ImageButton imageButton) {
@@ -90,11 +89,13 @@ public class HeadlineFragment extends Fragment {
 
         /** The system calls this to perform work in a worker thread and
          * delivers it the parameters given to AsyncTask.execute() */
-        protected Bitmap doInBackground(String... urls) {
+        protected Bitmap doInBackground(Integer... headlinePageNumber) {
             Bitmap latestArticlePic = null;
+            Article article = FetchHeadlineArticles.getArticles("featured",
+                    headlinePageNumber[0]);
 
             try {
-                InputStream in = new URL(urls[0]).openStream();
+                InputStream in = new URL(article.getImageURL()).openStream();
                 latestArticlePic = BitmapFactory.decodeStream(in);
             } catch (IOException e) {
                 Log.e("HEADLINE IMAGE DOWNLOAD", e.getMessage());

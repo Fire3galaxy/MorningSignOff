@@ -3,7 +3,16 @@ package app.morningsignout.com.morningsignoff;
 public class Article {
 	String title,
 		    description,
-			link;
+			link,
+            imageURL;
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
 
 	public String getTitle() {
 		return title;

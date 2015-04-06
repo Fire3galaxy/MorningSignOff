@@ -4,11 +4,9 @@ package app.morningsignout.com.morningsignoff;
  * Created by Daniel on 3/1/2015.
  */
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,24 +16,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class MainPageFragment extends Fragment {
-    FetchListArticlesTask fetchListTask = new FetchListArticlesTask();
-
     public MainPageFragment() {
     }
 
@@ -58,7 +46,6 @@ public class MainPageFragment extends Fragment {
         // Action bar (Home and Up button clicks have default to parent activity in Andr...Manifest
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            fetchListTask.execute("research");
             return true;
         }
 
