@@ -1,10 +1,22 @@
 package app.morningsignout.com.morningsignoff;
 
+import android.graphics.Bitmap;
+
 public class Article {
 	String title,
 		    description,
 			link,
             imageURL;
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
+
+    Bitmap bitmap;
 
     public String getImageURL() {
         return imageURL;

@@ -33,6 +33,8 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,8 +44,6 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity {
     // ----------------------------------For Headline Paging Capability
     private static final int NUM_PAGES = 3; // FIXME: INTENDED TO BE 5
-    private ViewPager headlinePager;
-    private PagerAdapter headlinePagerAdapter;
 
     /**
      * A simple pager adapter that represents 5 HeadlineFragment objects, in
@@ -73,8 +73,9 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         // The pager for list of headline images (each is own page)
-        headlinePager = (ViewPager) findViewById(R.id.container_headline);
-        headlinePagerAdapter = new HeadlinePagerAdapter(getSupportFragmentManager());
+        ViewPager headlinePager = (ViewPager) findViewById(R.id.container_headline);
+        HeadlinePagerAdapter headlinePagerAdapter =
+                new HeadlinePagerAdapter(getSupportFragmentManager());
         headlinePager.setAdapter(headlinePagerAdapter);
 
         // Bottom half of screen: The list of category buttons
@@ -82,12 +83,7 @@ public class MainActivity extends ActionBarActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new MainPageFragment())
                     .commit();
-        } // Top half of screen: The list of latest article images
-//        if (savedInstanceState == null) {
-//            getSupportFragmentManager().beginTransaction()
-//                    .add(R.id.container_headline, new HeadlineFragment())
-//                    .commit();
-//        }
+        }
     }
 
 
