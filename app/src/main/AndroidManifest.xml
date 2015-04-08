@@ -27,6 +27,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="app.morningsignout.com.morningsignoff.CategoryActivity" />
         </activity>
+        <activity
+            android:name=".ArticleActivity"
+            android:label="@string/title_activity_article"
+            android:parentActivityName=".CategoryActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="app.morningsignout.com.morningsignoff.CategoryActivity" />
+        </activity>
     </application>
 
 </manifest>
