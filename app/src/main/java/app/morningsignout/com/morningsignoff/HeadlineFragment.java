@@ -54,26 +54,8 @@ public class HeadlineFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_headline, container, false);
         ImageButton ib = (ImageButton) rootView.findViewById(R.id.imageButton_headline);
 
-        // Decide image to show based on index in list of images
-        if (page_number == 0)
-            new DownloadImageTask(rootView, ib).execute(0);
-//            ib.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.gravityfallsteaser)); // Static imgs
-        else if (page_number == 1)
-            new DownloadImageTask(rootView, ib).execute(1);
-        else if (page_number == 2)
-            new DownloadImageTask(rootView, ib).execute(2);
-//            ib.setImageResource(R.drawable.steven_universe_by_flafly_d6zv94s); // Static imgs
-
-        // When clicked, should open webview to article
-        ib.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            // FIXME: Use webview files from article view for this
-            // - From past me (Fire3galaxy): this code was done before headline and article were merged
-            Intent categoryPageIntent = new Intent(getActivity(), CategoryActivity.class);
-            startActivity(categoryPageIntent);
-            }
-        });
+        // Decide image to show based on index in headline images
+        new DownloadImageTask(rootView, ib).execute(page_number);
 
         return rootView;
     }
@@ -116,10 +98,27 @@ public class HeadlineFragment extends Fragment {
 
         /** The system calls this to perform work in the UI thread and delivers
          * the result from doInBackground() */
-        protected void onPostExecute(Article result) {
+        protected void onPostExecute(final Article result) {
+            // Set downloaded bitmap
             i.setImageBitmap(result.getBitmap());
+
+            // When clicked, should open webview to article
+            i.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent articlePageIntent = new Intent(getActivity(), ArticleActivity.class)
+                            .putExtra(Intent.EXTRA_HTML_TEXT, result.getLink());
+                    startActivity(articlePageIntent);
+                }
+            });
+
+            // Title
             textView.setText(result.getTitle());
+
+            // Remove loading bar
             progressBar.setVisibility(ProgressBar.GONE);
+
+            // Make title visibile
             textView.setVisibility(TextView.VISIBLE);
         }
     }

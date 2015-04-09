@@ -18,11 +18,6 @@ public class ArticleActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ArticleFragment newArticle = new ArticleFragment();
-        Bundle args = new Bundle();
-        args.putString("HTML_LINK", getIntent().getStringExtra(Intent.EXTRA_HTML_TEXT));
-        newArticle.setArguments(args);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
         super.getSupportActionBar().setDisplayHomeAsUpEnabled(true); //made back arrow in top left corner
@@ -32,6 +27,11 @@ public class ArticleActivity extends ActionBarActivity {
         article.loadUrl(getIntent().getStringExtra(Intent.EXTRA_HTML_TEXT));
 
         // Possibility 1, parsing the article page to show later
+//        ArticleFragment newArticle = new ArticleFragment();
+//        Bundle args = new Bundle();
+//        args.putString("HTML_LINK", getIntent().getStringExtra(Intent.EXTRA_HTML_TEXT));
+//        newArticle.setArguments(args);
+
 //        if (savedInstanceState == null) {
 //            getSupportFragmentManager().beginTransaction()
 //                    .add(R.id.container_article, newArticle)

@@ -40,10 +40,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+// To add to actionbar, check here: http://developer.android.com/guide/topics/ui/actionbar.html
 public class MainActivity extends ActionBarActivity {
     // ----------------------------------For Headline Paging Capability
-    private static final int NUM_PAGES = 3; // FIXME: INTENDED TO BE 5
+    private static final int NUM_PAGES = 5;
 
     /**
      * A simple pager adapter that represents 5 HeadlineFragment objects, in
