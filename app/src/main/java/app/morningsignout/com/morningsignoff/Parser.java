@@ -37,7 +37,6 @@ public class Parser {
         if (beginInd != -1 && endInd != -1) return replaceUnicode(s.substring(beginInd, endInd));
         return null;
     }
-
 	public String replaceUnicode(String s) {
 		String ret = s;
 		ret = ret.replace("&#8217;", "\u2019");

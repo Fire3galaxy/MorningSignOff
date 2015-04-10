@@ -4,7 +4,6 @@ package app.morningsignout.com.morningsignoff;
  * Created by Daniel on 3/1/2015.
  */
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,24 +17,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import android.R.*;
 
 /**
  * Creates the listview for all categories in the main page
  */
 public class MainPageFragment extends Fragment {
-    FetchListArticlesTask fetchListTask = new FetchListArticlesTask();
-
     // Used by OnItemClick to specific the category of the CategoryActivity
     String[] categories = {
             "latest",
@@ -63,8 +53,6 @@ public class MainPageFragment extends Fragment {
     public MainPageFragment() {
     }
 
-
-    // FIXME: All onCreate stuff besides onCreateView is for practice w/ internet. Not for this fragment!
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +62,7 @@ public class MainPageFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_refresh, menu);
+        inflater.inflate(R.menu.menu_main, menu);
     }
 
     @Override
@@ -82,7 +70,6 @@ public class MainPageFragment extends Fragment {
         // Action bar (Home and Up button clicks have default to parent activity in Andr...Manifest
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            fetchListTask.execute("research");
             return true;
         }
 
@@ -97,10 +84,10 @@ public class MainPageFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        ArrayList<String> articles = new ArrayList<String>(Arrays.asList(categoriesOnDisplay));
+        ArrayList<String> articles = new ArrayList<>(Arrays.asList(categoriesOnDisplay));
 
         // Adapter that will send array's data to list view
-        final ArrayAdapter<String> stringAdapter = new ArrayAdapter<String>(getActivity(),
+        final ArrayAdapter<String> stringAdapter = new ArrayAdapter<>(getActivity(),
                 R.layout.list_items_mainpage,
                 R.id.list_item_button,
                 articles);
