@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/row_item_layout"
+    >
+
+    <ImageView
+        android:src="@drawable/list_item_1"
+        android:layout_margin="10dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="picpicpicpicpicdescription 1ddescriptiondescription 1ddescriptiondescription 1ddescriptiondescription 1ddescriptiondescription 1ddescriptiondescription 1ddescriptiondescription 1ddescriptiondescription 1ddescriptiondescription 1ddescriptiondescription 1ddescriptiondescription 1ddescriptiondescription 1ddescription"
+        android:id="@+id/textView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_toEndOf="@+id/imageView"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_above="@+id/textView2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_height="35dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="description 1ddescriptiondescription 1ddescriptiondedescription 1ddescriptiondescription 1ddescriptiondescription 1ddescriptiondescription 1ddescriptiondescription 1ddescriptiondescription 1ddescriptionscription 1ddescriptiondescription 1ddescriptiondescription 1ddescriptiondescription 1ddescriptiondescription 1ddescriptiondescription 1ddescription"
+        android:id="@+id/textView2"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_alignRight="@+id/textView"
+        android:layout_alignEnd="@+id/textView"
+        android:layout_alignBottom="@+id/imageView" />
+
+</RelativeLayout>

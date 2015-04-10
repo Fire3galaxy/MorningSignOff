@@ -21,7 +21,7 @@ public class FetchHeadlineArticles {
     // Assigned value keeps logString in sync with class name if class name changed (Udacity)
     private static final String logString = FetchHeadlineArticles.class.getSimpleName();
 
-	public static Article getArticles(String arg, int headlinePage) {
+    public static Article getArticles(String arg, int headlinePage) {
         Parser p = new Parser();
         String urlPath = "http://morningsignout.com/category/" + arg;
 
@@ -107,3 +107,4 @@ public class FetchHeadlineArticles {
         return null; // Exiting try/catch likely means error occurred.
     }
 }
+

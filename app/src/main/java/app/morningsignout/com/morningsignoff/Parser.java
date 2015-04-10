@@ -1,5 +1,6 @@
 package app.morningsignout.com.morningsignoff;
 
+// It is used by FetchListArticlesTask class and FetchHeadLineArticles class to parse HTML elements
 public class Parser {
 	public String getTitle(String s) {
 		int tagA = s.indexOf("<a");

@@ -7,6 +7,7 @@ package app.morningsignout.com.morningsignoff;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,9 +22,33 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * A placeholder fragment containing a simple view.
+ * Creates the listview for all categories in the main page
  */
 public class MainPageFragment extends Fragment {
+    // Used by OnItemClick to specific the category of the CategoryActivity
+    String[] categories = {
+            "latest",
+            "featured",
+            "research",
+            "wellness",
+            "humanities",
+            "medicine",
+            "public-health",
+            "healthcare",
+    };
+
+    // Those are the categories shown on the buttons in the main page
+    String[] categoriesOnDisplay = {
+            "Latest",
+            "Featured",
+            "Research",
+            "Wellness",
+            "Humanities",
+            "Medicine",
+            "Public Health",
+            "Healthcare",
+    };
+
     public MainPageFragment() {
     }
 
@@ -58,25 +83,18 @@ public class MainPageFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        String array[] = {
-                "Latest",
-                "Research",
-                "Wellness",
-                "Humanities",
-                "Medicine",
-                "Public Health",
-                "Healthcare"
-        };
-        ArrayList<String> articles = new ArrayList<String>(Arrays.asList(array));
+        ArrayList<String> articles = new ArrayList<>(Arrays.asList(categoriesOnDisplay));
 
         // Adapter that will send array's data to list view
-        final ArrayAdapter<String> stringAdapter = new ArrayAdapter<String>(getActivity(),
+        final ArrayAdapter<String> stringAdapter = new ArrayAdapter<>(getActivity(),
                 R.layout.list_items_mainpage,
                 R.id.list_item_button,
                 articles);
 
         ListView lv_frag = (ListView) rootView.findViewById(R.id.listview_articles);
         lv_frag.setAdapter(stringAdapter);
+
+        // create the category page here
         lv_frag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -85,13 +103,13 @@ public class MainPageFragment extends Fragment {
 //                Toast.LENGTH_SHORT);
 //            toast.show();
 
-                // Add article link to new activity to download article
-                String article_test = "http://morningsignout.com/growth-factor-shows-" +
-                        "regenerative-effects-in-patients-with-parkinsons-disease/";
-                Intent articlePageIntent = new Intent(getActivity(), ArticleActivity.class)
-                        .putExtra(Intent.EXTRA_HTML_TEXT, article_test);
-                        //.putExtra(Intent.EXTRA_TITLE, stringAdapter.getItem(position));
-                startActivity(articlePageIntent);
+                // Give the categoryActivity a category title
+                String category = categories[position];
+                Log.e(category, "category_category");
+                Intent categoryPageIntent = new Intent(getActivity(), CategoryActivity.class);
+                //categoryPageIntent.putExtra(Intent.EXTRA_TITLE, stringAdapter.getItem(position));
+                categoryPageIntent.putExtra(Intent.EXTRA_TITLE, category);
+                startActivity(categoryPageIntent);
             }
         });
 
