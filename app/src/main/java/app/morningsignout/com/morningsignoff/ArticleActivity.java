@@ -1,6 +1,7 @@
 package app.morningsignout.com.morningsignoff;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.R.*;
+import android.webkit.WebViewClient;
 
 // Activity class created in FetchListArticleTask when user clicks on an article from the ListView
 public class ArticleActivity extends ActionBarActivity {
@@ -27,8 +29,10 @@ public class ArticleActivity extends ActionBarActivity {
             setTitle(getIntent().getStringExtra(Intent.EXTRA_SHORTCUT_NAME));
             // Possibility 2, A webview that directly shows the article page
             WebView article = (WebView) findViewById(R.id.webView_article);
+            article.setWebViewClient(new ArticleWebViewClient());
             article.loadUrl(getIntent().getStringExtra(Intent.EXTRA_HTML_TEXT));
         }
+
         // Possibility 2, A webview that directly shows the article page
         else {
             setTitle("Morning Signout");
@@ -72,5 +76,21 @@ public class ArticleActivity extends ActionBarActivity {
                 NavUtils.navigateUpTo(this, intent);
         }
         return super.onOptionsItemSelected(item);
+    }
+}
+
+
+// Create a customized webview client to disable website navigation bar
+class ArticleWebViewClient extends WebViewClient {
+
+    @Override
+    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        if(Uri.parse(url).getHost().endsWith("morningsignout.com")) {
+            return false;
+        }
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        view.getContext().startActivity(intent);
+        return true;
     }
 }
