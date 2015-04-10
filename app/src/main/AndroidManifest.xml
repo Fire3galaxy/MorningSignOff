@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:hardwareAccelerated="true"
         android:allowBackup="true"
         android:icon="@drawable/mso_small"
         android:label="@string/app_name"
@@ -19,10 +20,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".CategoryActivity"
             android:label="@string/title_activity_category"
             android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="app.morningsignout.com.morningsignoff.CategoryActivity" />
+        </activity>
+
+        <activity
+            android:launchMode = "singleTop"
+            android:name=".ArticleActivity"
+            android:label="@string/article"
+            android:parentActivityName=".CategoryActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="app.morningsignout.com.morningsignoff.CategoryActivity" />

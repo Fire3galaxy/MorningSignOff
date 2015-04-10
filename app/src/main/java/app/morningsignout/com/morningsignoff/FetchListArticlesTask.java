@@ -1,7 +1,18 @@
 package app.morningsignout.com.morningsignoff;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import org.apache.http.HttpStatus;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,13 +25,37 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+// This class is called in Category Activity to fetch articles online and fead it to CategoryAdapter
+// do in background gets the article objects from morningsignout, and convets imageURL to bitmap
+// getArticels() is the method that connects to the website and html
+// articles are sent to onPostExecute, where I set arrayAdapter.
 public class FetchListArticlesTask extends AsyncTask<String, Void, List<Article>> {
     // Assigned value keeps logString in sync with class name if class name changed (Udacity)
     private final String logString = FetchListArticlesTask.class.getSimpleName();
 
+    private int numOfArtilesLoadAtOnce = 12;
+    // Used for creating CategoryAdapter and onItemClick listener
+    private ListView listView;
+    private Context c;
+    private String category;
+
+    // The dimension of the rescaled bitmap
+    private static final int bitmapDimension = 100;
+
+    public FetchListArticlesTask(Context c, ListView listView) {
+        this.c = c;
+        this.listView = listView;
+    }
+
+    public FetchListArticlesTask() {
+    }
+
+    // takes in the category name as a sufix to the URL, ex. healthcare/  and call getArticles()
     @Override
     protected List<Article> doInBackground(String... params) {
         try {
+            // pass the category name as a string
+            category = params[0];
             return getArticles(params[0]);
         } catch (Exception e) {
             e.printStackTrace();
@@ -29,10 +64,70 @@ public class FetchListArticlesTask extends AsyncTask<String, Void, List<Article>
         return null;
     }
 
-    protected void onPostExecute(List<Article> articles) {
+    // Articles retrived online are being sent here, and we pass the info to the CategoryAdapter
+    protected void onPostExecute(final List<Article> articles) {
+
+        // Setup the adapter using the CategoryAdapter class
+        if(listView.getAdapter() == null)
+            listView.setAdapter(new CategoryAdapter(c, articles));
+
+        // Setup the click listener for the listView
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // test show its clicked
+                String articleTitle = articles.get(position).getTitle();
+                Toast toast = Toast.makeText(c.getApplicationContext(),
+                        "Loading Article: " + articleTitle, Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.show();
+
+                // Create new activity for the selected page here
+                // feed the new activity with the URL of the page
+                String articleLink = articles.get(position).getLink();
+                Intent articleActivity = new Intent(c, ArticleActivity.class);
+                articleActivity.putExtra(Intent.EXTRA_HTML_TEXT, articleLink);
+                articleActivity.putExtra(Intent.EXTRA_SHORTCUT_NAME, articleTitle);
+                articleActivity.putExtra(Intent.EXTRA_TITLE, category);
+
+                c.startActivity(articleActivity);
+            }
+        });
 
     }
 
+    // input an image URL, get its bitmap
+    private Bitmap downloadBitmap(String url) {
+        HttpURLConnection urlConnection = null;
+        try {
+            URL uri = new URL(url);
+            urlConnection = (HttpURLConnection) uri.openConnection();
+            int statusCode = urlConnection.getResponseCode();
+            if (statusCode != HttpStatus.SC_OK) {
+                return null;
+            }
+
+            InputStream inputStream = urlConnection.getInputStream();
+            if (inputStream != null) {
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
+                // rescale the bitmap
+                Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmapDimension, bitmapDimension, true);
+                return scaledBitmap;
+            }
+        } catch (Exception e) {
+            urlConnection.disconnect();
+            Log.w("ImageDownloader", "Error downloading image from " + url);
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+        }
+        return null;
+    }
+
+    // Go to MorningSignOut.com and get a list of articles
+    // get 12 articles and sent to onPostExecute()
 	List<Article> getArticles(String arg) {
         // String arg is "research", "wellness", "humanities", etc.
         // For getting article titles, descriptions, and images. See class Article
@@ -75,6 +170,13 @@ public class FetchListArticlesTask extends AsyncTask<String, Void, List<Article>
 
                         articlesList.get(ind).setTitle(title);
                         articlesList.get(ind).setLink(link);
+                    } // Image URL
+                    else if (inputLine.trim().contains("<img")) {
+                        String imageURL = p.getImageURL(inputLine);
+
+                        // convert string to bitmap then feed to each article
+                        Bitmap image = downloadBitmap(imageURL);
+                        articlesList.get(ind).setImage(image);
                     }
                     // Description of article
                     else if (inputLine.contains("<p>")) {

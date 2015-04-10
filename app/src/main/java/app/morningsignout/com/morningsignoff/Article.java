@@ -1,11 +1,31 @@
 package app.morningsignout.com.morningsignoff;
 
-public class Article {
-	String title,
-		    description,
-			link;
+import android.graphics.Bitmap;
 
-	public String getTitle() {
+public class Article {
+	private String title;
+    private String description;
+    private String link;
+    private int id;
+    private Bitmap image;
+
+    public Article() {
+    }
+
+    public Article(String title, String description, Bitmap image, int id) {
+        this.title = title;
+        this.description = description;
+        this.image =image;
+        this.id = id;
+    }
+
+    // testing
+    public Article(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
+    public String getTitle() {
 		return title;
 	}
 
@@ -28,5 +48,20 @@ public class Article {
 	public void setLink(String link) {
 		this.link = link;
 	}
-	
+
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public void setImage(Bitmap image){
+        this.image = image;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

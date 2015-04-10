@@ -31,10 +31,32 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * A placeholder fragment containing a simple view.
+ * Creates the listview for all categories in the main page
  */
 public class MainPageFragment extends Fragment {
     FetchListArticlesTask fetchListTask = new FetchListArticlesTask();
+
+    // Used by OnItemClick to specific the category of the CategoryActivity
+    String[] categories = {
+            "latest",
+            "research",
+            "wellness",
+            "humanities",
+            "medicine",
+            "public-health",
+            "healthcare"
+    };
+
+    // Those are the categories shown on the buttons in the main page
+    String[] categoriesOnDisplay = {
+            "Latest",
+            "Research",
+            "Wellness",
+            "Humanities",
+            "Medicine",
+            "Public Health",
+            "Healthcare"
+    };
 
     public MainPageFragment() {
     }
@@ -73,16 +95,7 @@ public class MainPageFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        String array[] = {
-                "Latest",
-                "Research",
-                "Wellness",
-                "Humanities",
-                "Medicine",
-                "Public Health",
-                "Healthcare"
-        };
-        ArrayList<String> articles = new ArrayList<String>(Arrays.asList(array));
+        ArrayList<String> articles = new ArrayList<String>(Arrays.asList(categoriesOnDisplay));
 
         // Adapter that will send array's data to list view
         final ArrayAdapter<String> stringAdapter = new ArrayAdapter<String>(getActivity(),
@@ -92,6 +105,8 @@ public class MainPageFragment extends Fragment {
 
         ListView lv_frag = (ListView) rootView.findViewById(R.id.listview_articles);
         lv_frag.setAdapter(stringAdapter);
+
+        // create the category page here
         lv_frag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -100,8 +115,12 @@ public class MainPageFragment extends Fragment {
 //                Toast.LENGTH_SHORT);
 //            toast.show();
 
-                Intent categoryPageIntent = new Intent(getActivity(), CategoryActivity.class)
-                        .putExtra(Intent.EXTRA_TITLE, stringAdapter.getItem(position));
+                // Give the categoryActivity a category title
+                String category = categories[position];
+                Log.e(category, "category_category");
+                Intent categoryPageIntent = new Intent(getActivity(), CategoryActivity.class);
+                //categoryPageIntent.putExtra(Intent.EXTRA_TITLE, stringAdapter.getItem(position));
+                categoryPageIntent.putExtra(Intent.EXTRA_TITLE, category);
                 startActivity(categoryPageIntent);
             }
         });

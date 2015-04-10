@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MorningSignout.iml" filepath="$PROJECT_DIR$/MorningSignout.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MorningSignOff.iml" filepath="$PROJECT_DIR$/MorningSignOff.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

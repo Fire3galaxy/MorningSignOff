@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">Morning Signout</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="good_morning">Good Morning!</string>
     <string name="img_description">Here!</string>
@@ -12,5 +11,18 @@
     <string name="action_style">Style!</string>
     <string name="title_activity_category">CategoryActivity</string> <!-- In menu_main.xml, we can add items to the action bar!
                                                      Set showAsAction to strings like never, ifRoom, etc to show!-->
+
+
+    <string name="article">Article</string>
+
+    <string name="hello_world">Hello --- world!</string>
+
+
+    <string-array name ="descriptions">
+        <item>description 1</item>
+        <item>description 2</item>
+        <item>description 3</item>
+        <item>description 4</item>
+    </string-array>
 
 </resources>
