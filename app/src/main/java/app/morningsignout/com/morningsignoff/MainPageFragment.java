@@ -39,6 +39,7 @@ public class MainPageFragment extends Fragment {
     // Used by OnItemClick to specific the category of the CategoryActivity
     String[] categories = {
             "latest",
+            "featured",
             "research",
             "wellness",
             "humanities",
@@ -50,6 +51,7 @@ public class MainPageFragment extends Fragment {
     // Those are the categories shown on the buttons in the main page
     String[] categoriesOnDisplay = {
             "Latest",
+            "Featured",
             "Research",
             "Wellness",
             "Humanities",

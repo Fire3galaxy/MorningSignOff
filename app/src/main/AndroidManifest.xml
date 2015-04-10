@@ -24,6 +24,7 @@
         <activity
             android:name=".CategoryActivity"
             android:label="@string/title_activity_category"
+            android:launchMode = "singleTop"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -31,7 +32,6 @@
         </activity>
 
         <activity
-            android:launchMode = "singleTop"
             android:name=".ArticleActivity"
             android:label="@string/article"
             android:parentActivityName=".CategoryActivity" >
