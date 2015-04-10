@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
+import android.R.*;
 
 // Activity class created in FetchListArticleTask when user clicks on an article from the ListView
 public class ArticleActivity extends ActionBarActivity {
@@ -27,12 +28,13 @@ public class ArticleActivity extends ActionBarActivity {
             // Possibility 2, A webview that directly shows the article page
             WebView article = (WebView) findViewById(R.id.webView_article);
             article.loadUrl(getIntent().getStringExtra(Intent.EXTRA_HTML_TEXT));
-
         }
-
         // Possibility 2, A webview that directly shows the article page
-        WebView article = (WebView) findViewById(R.id.webView_article);
-        article.loadUrl(getIntent().getStringExtra(Intent.EXTRA_HTML_TEXT));
+        else {
+            setTitle("Morning Signout");
+            WebView article = (WebView) findViewById(R.id.webView_article);
+            article.loadUrl(getIntent().getStringExtra(Intent.EXTRA_HTML_TEXT));
+        }
 
         // Possibility 1, parsing the article page to show later
 //        ArticleFragment newArticle = new ArticleFragment();

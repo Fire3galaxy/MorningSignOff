@@ -107,7 +107,8 @@ public class HeadlineFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent articlePageIntent = new Intent(getActivity(), ArticleActivity.class)
-                            .putExtra(Intent.EXTRA_HTML_TEXT, result.getLink());
+                            .putExtra(Intent.EXTRA_HTML_TEXT, result.getLink())
+                            .putExtra(Intent.EXTRA_SHORTCUT_NAME, result.getTitle());
                     startActivity(articlePageIntent);
                 }
             });
