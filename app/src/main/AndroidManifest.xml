@@ -22,6 +22,7 @@
         </activity>
 
         <activity
+            android:launchMode = "singleTop"
             android:name=".CategoryActivity"
             android:label="@string/title_activity_category"
             android:parentActivityName=".MainActivity" >
@@ -31,7 +32,6 @@
         </activity>
 
         <activity
-            android:launchMode = "singleTop"
             android:name=".ArticleActivity"
             android:label="@string/article"
             android:parentActivityName=".CategoryActivity" >

@@ -62,7 +62,7 @@ public class CategoryActivity extends ActionBarActivity {
         if (intent != null && category.isEmpty()) {
             // Set the title for the Category Activity
             String title = intent.getStringExtra(Intent.EXTRA_TITLE);
-            //setTitle(title.toUpperCase());
+            setTitle(title.toUpperCase());
             category = title + "/";
         } else {
             setTitle("Error");

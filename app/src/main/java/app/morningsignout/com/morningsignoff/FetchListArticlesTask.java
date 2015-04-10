@@ -77,10 +77,10 @@ public class FetchListArticlesTask extends AsyncTask<String, Void, List<Article>
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // test show its clicked
                 String articleTitle = articles.get(position).getTitle();
-                Toast toast = Toast.makeText(c.getApplicationContext(),
-                        "Loading Article: " + articleTitle, Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
-                toast.show();
+//                Toast toast = Toast.makeText(c.getApplicationContext(),
+//                        "Loading Article: " + articleTitle, Toast.LENGTH_SHORT);
+//                toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+//                toast.show();
 
                 // Create new activity for the selected page here
                 // feed the new activity with the URL of the page
@@ -133,7 +133,12 @@ public class FetchListArticlesTask extends AsyncTask<String, Void, List<Article>
         // For getting article titles, descriptions, and images. See class Article
         List<Article> articlesList;
         Parser p = new Parser();
-        String urlPath = "http://morningsignout.com/category/" + arg;
+        String urlPath;
+        if(arg.equals("latest/")){
+            urlPath = "http://morningsignout.com/latest/";
+        }else {
+            urlPath = "http://morningsignout.com/category/" + arg;
+        }
 
         BufferedReader in = null;
         HttpURLConnection c = null; // Done because of tutorial
