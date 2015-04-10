@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import java.util.List;
 // Category page activity
 public class CategoryActivity extends ActionBarActivity {
     ListView list;
+    ProgressBar progressBar;
     List<Article> articles;
     String category = "";
 
@@ -48,6 +50,7 @@ public class CategoryActivity extends ActionBarActivity {
         setContentView(R.layout.fragment_category_main);
         // setContentView(R.layout.activity_category);
         list = (ListView)findViewById(R.id.listView);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         // Testing
         // Set up the adapter using the CategoryAdapter class
@@ -62,14 +65,16 @@ public class CategoryActivity extends ActionBarActivity {
         if (intent != null && category.isEmpty()) {
             // Set the title for the Category Activity
             String title = intent.getStringExtra(Intent.EXTRA_TITLE);
-            setTitle(title.toUpperCase());
+            String title_firstCharCap =
+                    Character.toString(Character.toUpperCase(title.charAt(0))) + title.substring(1);
+            setTitle(title_firstCharCap);
             category = title + "/";
         } else {
             setTitle("Error");
         }
 
         // Use Asynctask to fetch article from the given category
-        new FetchListArticlesTask(this, list).execute(category);
+        new FetchListArticlesTask(this, list, progressBar).execute(category);
 
 
 //        if (savedInstanceState == null) {

@@ -25,6 +25,7 @@
             android:launchMode = "singleTop"
             android:name=".CategoryActivity"
             android:label="@string/title_activity_category"
+            android:launchMode = "singleTop"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

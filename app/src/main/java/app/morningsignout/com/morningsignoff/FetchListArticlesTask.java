@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.apache.http.HttpStatus;
@@ -36,15 +37,17 @@ public class FetchListArticlesTask extends AsyncTask<String, Void, List<Article>
     private int numOfArtilesLoadAtOnce = 12;
     // Used for creating CategoryAdapter and onItemClick listener
     private ListView listView;
+    private ProgressBar progressBar;
     private Context c;
     private String category;
 
     // The dimension of the rescaled bitmap
     private static final int bitmapDimension = 100;
 
-    public FetchListArticlesTask(Context c, ListView listView) {
+    public FetchListArticlesTask(Context c, ListView listView, ProgressBar progressBar) {
         this.c = c;
         this.listView = listView;
+        this.progressBar = progressBar;
     }
 
     public FetchListArticlesTask() {
@@ -66,6 +69,7 @@ public class FetchListArticlesTask extends AsyncTask<String, Void, List<Article>
 
     // Articles retrived online are being sent here, and we pass the info to the CategoryAdapter
     protected void onPostExecute(final List<Article> articles) {
+        progressBar.setVisibility(ProgressBar.GONE);
 
         // Setup the adapter using the CategoryAdapter class
         if(listView.getAdapter() == null)
