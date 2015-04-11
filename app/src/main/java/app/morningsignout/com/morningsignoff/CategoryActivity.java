@@ -34,7 +34,7 @@ import android.R.*;
 // Category page activity
 public class CategoryActivity extends ActionBarActivity {
     ListView list;
-    ProgressBar progressBar;
+    ProgressBar progressBar, progressBar2;
     List<Article> articles;
     String category = "";
 
@@ -42,25 +42,12 @@ public class CategoryActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Testing CategoryAdapter
-        //List<Article> articles;
-//        Article article1 = new Article("Are Philosophers Crazy?", "Nietzche, Godel all went crazy");
-//        Article article2 = new Article("Bible", "Jesus is immportal");
-//        articles = new ArrayList<Article>();
-//        articles.add(article1);
-//        articles.add(article2);
-
         // Use the ListView layout from fragmment_category_main.xml,
         setContentView(R.layout.fragment_category_main);
         // setContentView(R.layout.activity_category);
         list = (ListView)findViewById(R.id.listView);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
-        // Testing
-        // Set up the adapter using the CategoryAdapter class
-        //list.setAdapter(new CategoryAdapter(this, articles));
-        // Set up the click listener for the listView
-        //list.setOnItemClickListener(this);
+        progressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
 
         // Fetch the category name from Intent, which is set in MainPageFragment
         Intent intent = getIntent();
@@ -77,7 +64,7 @@ public class CategoryActivity extends ActionBarActivity {
         }
 
         // Use Asynctask to fetch article from the given category
-        new FetchListArticlesTask(this, list, progressBar,1).execute(category);
+        new FetchListArticlesTask(this, list, progressBar, progressBar2, 1).execute(category);
 
         // Setup the click listener for the listView
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -137,22 +124,6 @@ public class CategoryActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_category_main, container, false);
-            return rootView;
-        }
-    }
 }
 
 // Defines the row item xml
@@ -184,17 +155,6 @@ class CategoryAdapter extends BaseAdapter{
         // the context is needed for creating LayoutInflater
         context = c;
         Resources res = c.getResources();
-
-        // Testing
-//        String[] titles = res.getStringArray(R.array.titles);
-//        String[] descriptions = res.getStringArray(R.array.descriptions);
-//        int[] images = {R.drawable.list_item_1,
-//                        R.drawable.list_item_1,
-//                        R.drawable.list_item_1,
-//                        R.drawable.list_item_1};
-
-//        String[] titles = {"Title_1"};
-//        String[] descriptions = {"description _1"};
 
         for(int i = 0; i < articles.size(); ++i){
             String title = articles.get(i).getTitle();
@@ -244,25 +204,6 @@ class CategoryAdapter extends BaseAdapter{
         description.setText(rowTemp.description);
         image.setImageBitmap(rowTemp.image);
 
-        // Testing
-//        Bitmap bmp = null;
-//        try {
-//            URL url = new URL("http://image10.bizrate-images.com/resize?sq=60&uid=2216744464");
-//            bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-//            image.setImageBitmap(bmp);
-//        } catch (IOException e) {
-//            // TODO: handle exception
-//            Log.e("error", "Failed to load image");
-//            // failed to load warning image
-//            image.setImageResource(R.drawable.list_item_1);
-//        }
-//        image.setImageResource(R.drawable.list_item_1);
-
-//        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
-//                R.drawable.list_item_1);
-//        bitmap = Bitmap.createScaledBitmap(bitmap, 5, 5, true);
-
-
         return row;
     }
 
@@ -295,6 +236,4 @@ class CategoryAdapter extends BaseAdapter{
             }
         }
     }
-
-
 }

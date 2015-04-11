@@ -16,11 +16,6 @@
     <string name="title_activity_article">ArticleActivity</string> <!-- In menu_main.xml, we can add items to the action bar!
                                                      Set showAsAction to strings like never, ifRoom, etc to show!-->
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> origin/new_categoryActivity
     <string name="hello_world">Hello --- world!</string>
 
 

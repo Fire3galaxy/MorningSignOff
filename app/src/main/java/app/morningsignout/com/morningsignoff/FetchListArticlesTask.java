@@ -1,17 +1,13 @@
 package app.morningsignout.com.morningsignoff;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -25,7 +21,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +34,7 @@ public class FetchListArticlesTask extends AsyncTask<String, Void, List<Article>
 
     // Used for creating CategoryAdapter and onItemClick listener
     private ListView listView;
-    private ProgressBar progressBar;
+    private ProgressBar progressBar, loadingMoreArticles;
     private Context c;
     private String category;
 
@@ -49,10 +44,12 @@ public class FetchListArticlesTask extends AsyncTask<String, Void, List<Article>
     // The dimension of the rescaled bitmap
     private static final int bitmapDimension = 100;
 
-    public FetchListArticlesTask(Context c, ListView listView, ProgressBar progressBar, int pageNum) {
+    public FetchListArticlesTask(Context c, ListView listView, ProgressBar progressBar,
+                                 ProgressBar progressBar2, int pageNum) {
         this.c = c;
         this.listView = listView;
         this.progressBar = progressBar;
+        this.loadingMoreArticles = progressBar2;
         this.pageNum = pageNum;
     }
 
@@ -82,9 +79,12 @@ public class FetchListArticlesTask extends AsyncTask<String, Void, List<Article>
 
     // Articles retrived online are being sent here, and we pass the info to the CategoryAdapter
     protected void onPostExecute(final List<Article> articles) {
-        progressBar.setVisibility(ProgressBar.GONE);
-
-        progressBar.setVisibility(ProgressBar.GONE);
+        // Avoids redundancy if bar is gone
+        if (progressBar.getVisibility() != ProgressBar.GONE)
+            progressBar.setVisibility(ProgressBar.GONE);
+        // If loading more articles is finished, make this go away again
+//        if (loadingMoreArticles.getVisibility() == ProgressBar.VISIBLE)
+//            loadingMoreArticles.setVisibility(ProgressBar.INVISIBLE);
 
         // Setup the adapter using the CategoryAdapter class
         // If the adapter is not set, then create the adapter and add the articles
@@ -123,16 +123,21 @@ public class FetchListArticlesTask extends AsyncTask<String, Void, List<Article>
                         // otherwise it returns random articles
                         if(articlesList == null || articlesList.size() < 12){
                             Toast toast = Toast.makeText(c.getApplicationContext(),
-                                    "Bottom", Toast.LENGTH_SHORT);
+                                    "No other articles", Toast.LENGTH_SHORT);
                             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                             toast.show();
                         }else {
                             Toast toast = Toast.makeText(c.getApplicationContext(),
-                                    "Loading ...........", Toast.LENGTH_SHORT);
+                                    "Loading........", Toast.LENGTH_SHORT);
                             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                             toast.show();
 
-                            new FetchListArticlesTask(c, listView, progressBar, ++pageNum).execute(category);
+                            /* FIXME: Replace toast with loading bar, placed as "item" in listview
+                             * with its own space. Disappears on items appearance (on post execute)
+                             */
+                            //loadingMoreArticles.setVisibility(ProgressBar.VISIBLE);
+
+                            new FetchListArticlesTask(c, listView, progressBar, loadingMoreArticles, ++pageNum).execute(category);
                         }
                         isScrolling = false;
                     }
