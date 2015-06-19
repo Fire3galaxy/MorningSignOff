@@ -70,6 +70,8 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("onCreate", "at onCreate");
+
         setContentView(R.layout.activity_main);
 
         // The pager for list of headline images (each is own page)
@@ -107,5 +109,35 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("onPause", "at onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("onStop", "at onStop");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("onResume", "at onResume");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("onStart", "at onStart");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("onDestroy", "at onDestroy");
     }
 }

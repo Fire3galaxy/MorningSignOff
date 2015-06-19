@@ -2,32 +2,32 @@
 <items version="2" >
 
     <item
-        jar="/Users/chenxingouyang/AndroidStudioProjects/MorningSignOff/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="/Users/chenxingouyang/AndroidStudioProjects/MorningSignOff/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-5f591843a1568a630a08db99f2b126df8aaa9c4f.jar" />
-    </item>
-    <item
-        jar="/Users/chenxingouyang/AndroidStudioProjects/MorningSignOff/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="/Users/chenxingouyang/AndroidStudioProjects/MorningSignOff/app/build/intermediates/pre-dexed/debug/classes-0e6b236401d3889f1c4cfe923b5bebc887224a42.jar" />
-    </item>
-    <item
-        jar="/Applications/android-sdk-macosx/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jar="C:\Users\Daniel\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="/Users/chenxingouyang/AndroidStudioProjects/MorningSignOff/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-fa100554894d48afbb0ad0851f92cc333d0a6051.jar" />
+        <dex dex="C:\Users\Daniel\AndroidStudioProjects\MorningSignOff\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-bc6d48aa256a944dae514efb7620be498f80b8e8.jar" />
     </item>
     <item
-        jar="/Users/chenxingouyang/AndroidStudioProjects/MorningSignOff/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
+        jar="C:\Users\Daniel\AndroidStudioProjects\MorningSignOff\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\Users\Daniel\AndroidStudioProjects\MorningSignOff\app\build\intermediates\pre-dexed\debug\classes-6fc85bb04c1286034a5202a4a4f203a1b0b8db2f.jar" />
+    </item>
+    <item
+        jar="C:\Users\Daniel\AndroidStudioProjects\MorningSignOff\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="/Users/chenxingouyang/AndroidStudioProjects/MorningSignOff/app/build/intermediates/pre-dexed/debug/classes-f3844e2f20d063958753c3f269b1f5c5e9e5c125.jar" />
+        <dex dex="C:\Users\Daniel\AndroidStudioProjects\MorningSignOff\app\build\intermediates\pre-dexed\debug\classes-d7c37ae1bc5e70504a2a2ac016a85d4c69191261.jar" />
+    </item>
+    <item
+        jar="C:\Users\Daniel\AndroidStudioProjects\MorningSignOff\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\Users\Daniel\AndroidStudioProjects\MorningSignOff\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-93601809caad9b31d60b14befb316801864f3b2e.jar" />
     </item>
 
 </items>

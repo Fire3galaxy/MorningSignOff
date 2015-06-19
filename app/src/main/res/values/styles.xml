@@ -4,6 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/mso_blue</item>
+        <item name="android:actionBarSize">45dp</item>
     </style>
 
     <style name="MsoActionBarTheme" parent="Theme.AppCompat.Light.DarkActionBar">

@@ -82,7 +82,6 @@ public class ArticleActivity extends ActionBarActivity {
 
 // Create a customized webview client to disable website navigation bar
 class ArticleWebViewClient extends WebViewClient {
-
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
         if(Uri.parse(url).getHost().endsWith("morningsignout.com")) {

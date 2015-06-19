@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ import org.w3c.dom.Text;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by Daniel on 3/2/2015.
@@ -87,8 +89,12 @@ public class HeadlineFragment extends Fragment {
                     headlinePageNumber[0]);
 
             try {
+                // Lowers resolution of images by subsampling image, saves memory & time
+                BitmapFactory.Options a = new BitmapFactory.Options();
+                a.inSampleSize = 2;
+
                 InputStream in = new URL(article.getImageURL()).openStream();
-                article.setBitmap(BitmapFactory.decodeStream(in));
+                article.setBitmap(BitmapFactory.decodeStream(in, null, a));
             } catch (IOException e) {
                 Log.e("HEADLINE IMAGE DOWNLOAD", e.getMessage());
             }
@@ -99,6 +105,10 @@ public class HeadlineFragment extends Fragment {
         /** The system calls this to perform work in the UI thread and delivers
          * the result from doInBackground() */
         protected void onPostExecute(final Article result) {
+            // Preserve aspect ratio of image
+            i.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            i.setCropToPadding(true);
+
             // Set downloaded bitmap
             i.setImageBitmap(result.getBitmap());
 
@@ -119,7 +129,7 @@ public class HeadlineFragment extends Fragment {
             // Remove loading bar
             progressBar.setVisibility(ProgressBar.GONE);
 
-            // Make title visibile
+            // Make title visible
             textView.setVisibility(TextView.VISIBLE);
         }
     }
