@@ -24,9 +24,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-// This class is called in Category Activity to fetch articles online and fead it to CategoryAdapter
-// do in background gets the article objects from morningsignout, and convets imageURL to bitmap
-// getArticels() is the method that connects to the website and html
+// This class is called in Category Activity to fetch articles online and feed it to CategoryAdapter
+// do in background gets the article objects from morningsignout, and converts imageURL to bitmap
+// getArticles() is the method that connects to the website and html
 // articles are sent to onPostExecute, where I set arrayAdapter.
 public class FetchListArticlesTask extends AsyncTask<String, Void, List<Article>> {
     // Assigned value keeps logString in sync with class name if class name changed (Udacity)
