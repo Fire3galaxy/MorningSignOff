@@ -91,7 +91,7 @@ public class CategoryActivity extends ActionBarActivity {
                 articleActivity.putExtra(Intent.EXTRA_HTML_TEXT, articleLink);
                 // EXTRA_SHORTCUT_NAME holds the name of the article, e.g. "what life sucks in hell"
                 articleActivity.putExtra(Intent.EXTRA_SHORTCUT_NAME, articleTitle);
-                // EXTRA_TITLE holds the category name, e.g. "wellness"
+                // EXTRA_TITLE holds the category name, e.g. "wellness/"
                 articleActivity.putExtra(Intent.EXTRA_TITLE, category);
 
                 list.getContext().startActivity(articleActivity);
@@ -130,6 +130,7 @@ class SingleRow{
     String title;
     String description;
     String link;
+    String imageURL;
     Bitmap image;
 
     SingleRow(String title, String description, Bitmap image, String link) {
@@ -137,6 +138,25 @@ class SingleRow{
         this.description = description;
         this.image = image;
         this.link = link;
+
+        this.imageURL = null;
+    }
+
+    // For fetch list articles, imageURL is set to download image later (fetch cat. image task)
+    SingleRow(String title, String description, String imageURL, String link) {
+        this.title = title;
+        this.description = description;
+        this.imageURL = imageURL;
+        this.link = link;
+
+        this.image = null;
+    }
+
+    static SingleRow newInstance(Article article) {
+        return new SingleRow(article.getTitle(),
+                article.getDescription(),
+                article.getImageURL(),
+                article.getLink());
     }
 }
 
@@ -153,16 +173,15 @@ class CategoryAdapter extends BaseAdapter{
         list = new ArrayList<SingleRow>();
         // the context is needed for creating LayoutInflater
         context = c;
-        Resources res = c.getResources();
+//        Resources res = c.getResources();
 
         for(int i = 0; i < articles.size(); ++i){
             String title = articles.get(i).getTitle();
             String description = articles.get(i).getDescription();
             String link = articles.get(i).getLink();
-            Bitmap image = articles.get(i).getImage();
+            String imageURL = articles.get(i).getImageURL();
 
-            list.add(new SingleRow(title, description, image, link));
-
+            list.add(new SingleRow(title, description, imageURL, link));
         }
     }
 
@@ -186,22 +205,26 @@ class CategoryAdapter extends BaseAdapter{
     // Get the View route of a single row by id
     @Override
     public View getView(int i, View view, final ViewGroup viewGroup){
-
         // crate a new rowItem object here
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View row = inflater.inflate(R.layout.single_row, viewGroup, false);
-
 
         // Get the description, image and title of the row item
         TextView title = (TextView) row.findViewById(R.id.textView);
         TextView description = (TextView) row.findViewById(R.id.textView2);
         ImageView image = (ImageView) row.findViewById(R.id.imageView);
+        ProgressBar pb = (ProgressBar) row.findViewById(R.id.progressBarSingleRow);
 
-        // Set the values of the rowItem
-        SingleRow rowTemp = list.get(i);
-        title.setText(rowTemp.title);
-        description.setText(rowTemp.description);
-        image.setImageBitmap(rowTemp.image);
+        // Load data into row element
+        if (list.get(i).image == null)
+            new FetchCategoryImageTask(list.get(i), title, description, image, pb).execute();
+        else {
+            // Set the values of the rowItem
+            SingleRow rowTemp = list.get(i);
+            title.setText(rowTemp.title);
+            description.setText(rowTemp.description);
+            image.setImageBitmap(rowTemp.image);
+        }
 
         return row;
     }
@@ -234,5 +257,9 @@ class CategoryAdapter extends BaseAdapter{
                 list.add(new SingleRow(title, description, image, link));
             }
         }
+    }
+
+    public ArrayList<SingleRow> getList() {
+        return list;
     }
 }

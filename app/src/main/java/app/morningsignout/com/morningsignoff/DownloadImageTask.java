@@ -33,7 +33,7 @@ import app.morningsignout.com.morningsignoff.HeadlineArtContract.*;
 // http://stackoverflow.com/questions/2471935/how-to-load-an-imageview-by-url-in-android
 public class DownloadImageTask extends AsyncTask<Integer, Void, Article> {
     MyContextWrapper mCWrapper;
-    Fragment mFragment;
+    HeadlineFragment mFragment;
     ImageButton i;
     ProgressBar progressBar;
     TextView textView;
@@ -46,7 +46,7 @@ public class DownloadImageTask extends AsyncTask<Integer, Void, Article> {
         }
     }
 
-    DownloadImageTask(Fragment fragment, Context context, View view, ImageButton imageButton) {
+    DownloadImageTask(HeadlineFragment fragment, Context context, View view, ImageButton imageButton) {
         mCWrapper = new MyContextWrapper(context);
         mFragment = fragment;
         i = imageButton;
@@ -56,6 +56,7 @@ public class DownloadImageTask extends AsyncTask<Integer, Void, Article> {
 
     // Displays progress bar
     protected void onPreExecute() {
+        Log.e("onPreExecute", "Setting progress bar~~~~~~~~~~~~");
         progressBar.setIndeterminate(true);
         progressBar.setVisibility(ProgressBar.VISIBLE);
     }
@@ -86,7 +87,7 @@ public class DownloadImageTask extends AsyncTask<Integer, Void, Article> {
                 bytes = baos.toByteArray();
 
                 // Insert into database for quick loading later (_id starts with 1)
-                addH_article(article.getTitle(), article.getLink(), baos.toByteArray());
+//                addH_article(article.getTitle(), article.getLink(), baos.toByteArray());
             }
             // Found in database, do not download image from internet
             else {
@@ -136,6 +137,9 @@ public class DownloadImageTask extends AsyncTask<Integer, Void, Article> {
 
         // Make title visible
         textView.setVisibility(TextView.VISIBLE);
+
+        // Save new data to HeadlineFragment
+        mFragment.setArticle(result);
     }
 
     private Cursor getH_articleLINK(String link) {

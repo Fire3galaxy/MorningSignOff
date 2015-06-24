@@ -41,9 +41,6 @@ public class FetchListArticlesTask extends AsyncTask<String, Void, List<Article>
     private List<Article> articlesList;
     private int pageNum;
 
-    // The dimension of the rescaled bitmap
-    private static final int bitmapDimension = 100;
-
     public FetchListArticlesTask(Context c, ListView listView, ProgressBar progressBar,
                                  ProgressBar progressBar2, int pageNum) {
         this.c = c;
@@ -90,8 +87,13 @@ public class FetchListArticlesTask extends AsyncTask<String, Void, List<Article>
         // If the adapter is not set, then create the adapter and add the articles
         // If the adapter is set, then add more articles to the list then notify the data change
         if(listView.getAdapter() == null) {
-            listView.setAdapter(new CategoryAdapter(c, articles));
-        }else {
+            CategoryAdapter categoryAdapter = new CategoryAdapter(c, articles.subList(0, 1));
+            listView.setAdapter(categoryAdapter);
+            for (int i = 1; i < articles.size(); i++) {
+                categoryAdapter.getList().add(SingleRow.newInstance(articles.get(i)));
+                categoryAdapter.notifyDataSetChanged();
+            }
+        } else {
             CategoryAdapter categoryAdapter = (CategoryAdapter) listView.getAdapter();
             categoryAdapter.loadMoreItems(articles, pageNum);
             categoryAdapter.notifyDataSetChanged();
@@ -151,36 +153,6 @@ public class FetchListArticlesTask extends AsyncTask<String, Void, List<Article>
 
     }
 
-    // input an image URL, get its bitmap
-    private Bitmap downloadBitmap(String url) {
-        HttpURLConnection urlConnection = null;
-        try {
-            URL uri = new URL(url);
-            urlConnection = (HttpURLConnection) uri.openConnection();
-            int statusCode = urlConnection.getResponseCode();
-            if (statusCode != HttpStatus.SC_OK) {
-                return null;
-            }
-
-            InputStream inputStream = urlConnection.getInputStream();
-            if (inputStream != null) {
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-
-                // rescale the bitmap
-                Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmapDimension, bitmapDimension, true);
-                return scaledBitmap;
-            }
-        } catch (Exception e) {
-            urlConnection.disconnect();
-            Log.w("ImageDownloader", "Error downloading image from " + url);
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-        }
-        return null;
-    }
-
     // Go to MorningSignOut.com and get a list of articles
     // get 12 articles and sent to onPostExecute()
     List<Article> getArticles(String arg, int pageNum) {
@@ -234,8 +206,8 @@ public class FetchListArticlesTask extends AsyncTask<String, Void, List<Article>
                         String imageURL = p.getImageURL(inputLine);
 
                         // convert string to bitmap then feed to each article
-                        Bitmap image = downloadBitmap(imageURL);
-                        articlesList.get(ind).setImage(image);
+//                        Bitmap image = downloadBitmap(imageURL);
+                        articlesList.get(ind).setImageURL(imageURL);
                     }
                     // Description of article
                     else if (inputLine.contains("<p>")) {

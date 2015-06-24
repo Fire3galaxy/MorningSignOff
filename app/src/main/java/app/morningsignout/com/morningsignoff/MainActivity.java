@@ -49,13 +49,14 @@ public class MainActivity extends ActionBarActivity {
      * sequence. Copied from http://developer.android.com/training/animation/screen-slide.html
      * Each image button will be a page instantiated by the pager adapter
      */
-    private class HeadlinePagerAdapter extends FragmentStatePagerAdapter {
+    private class HeadlinePagerAdapter extends FragmentPagerAdapter {
         public HeadlinePagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
         public Fragment getItem(int position) {
+            Log.e("getItem()", "Creating Headline Fragment~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             return HeadlineFragment.create(position);
         }
 
