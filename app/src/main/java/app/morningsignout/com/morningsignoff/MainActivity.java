@@ -17,8 +17,8 @@
 package app.morningsignout.com.morningsignoff;
 
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -42,7 +42,6 @@ import java.util.List;
 
 // To add to actionbar, check here: http://developer.android.com/guide/topics/ui/actionbar.html
 public class MainActivity extends ActionBarActivity {
-    // ----------------------------------For Headline Paging Capability
     private static final int NUM_PAGES = 5;
 
     /**
@@ -65,7 +64,6 @@ public class MainActivity extends ActionBarActivity {
             return NUM_PAGES;
         }
     }
-    // ------------------------------------------For Headline Paging Capability
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +74,7 @@ public class MainActivity extends ActionBarActivity {
 
         // The pager for list of headline images (each is own page)
         ViewPager headlinePager = (ViewPager) findViewById(R.id.container_headline);
-        HeadlinePagerAdapter headlinePagerAdapter =
-                new HeadlinePagerAdapter(getSupportFragmentManager());
-        headlinePager.setAdapter(headlinePagerAdapter);
+        headlinePager.setAdapter(new HeadlinePagerAdapter(getSupportFragmentManager()));
 
         // Bottom half of screen: The list of category buttons
         if (savedInstanceState == null) {

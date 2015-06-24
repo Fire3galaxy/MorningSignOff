@@ -2,6 +2,7 @@ package app.morningsignout.com.morningsignoff;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
@@ -21,7 +22,6 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.IOUtils.*;
 
 import app.morningsignout.com.morningsignoff.HeadlineArtContract.*;
 
@@ -32,53 +32,26 @@ import app.morningsignout.com.morningsignoff.HeadlineArtContract.*;
 // http://developer.android.com/guide/components/processes-and-threads.html
 // http://stackoverflow.com/questions/2471935/how-to-load-an-imageview-by-url-in-android
 public class DownloadImageTask extends AsyncTask<Integer, Void, Article> {
-    Context mContext;
+    MyContextWrapper mCWrapper;
     Fragment mFragment;
     ImageButton i;
     ProgressBar progressBar;
     TextView textView;
 
+    // Courtesy to http://stackoverflow.com/questions/7880657/best-practice-to-pass-context-to-non-activity-classes
+    // ET-CS
+    private class MyContextWrapper extends ContextWrapper {
+        public MyContextWrapper(Context base) {
+            super(base);
+        }
+    }
+
     DownloadImageTask(Fragment fragment, Context context, View view, ImageButton imageButton) {
-        mContext = context;
+        mCWrapper = new MyContextWrapper(context);
         mFragment = fragment;
         i = imageButton;
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar_headline);
         textView = (TextView) view.findViewById(R.id.textView_headline);
-    }
-
-    private long addH_article(String title, String link, byte[] imageByteStream) {
-        long _id;
-
-        // Query database to see if article exists
-        Cursor c = mContext.getContentResolver().query(
-                HeadlineArtContract.BASE_CONTENT_URI,
-                new String[]{H_articleEntry._ID},
-                "? = " + link,
-                new String[]{H_articleEntry.COLUMN_LINK},
-                null);
-
-        try {
-            // Insert H_articleEntry if not found
-            if (c.getCount() == 0) {
-                ContentValues articleValues = new ContentValues();
-                articleValues.put(H_articleEntry.COLUMN_TITLE, title);
-                articleValues.put(H_articleEntry.COLUMN_LINK, link);
-                articleValues.put(H_articleEntry.COLUMN_IMAGEBYTESTREAM, imageByteStream);
-
-                _id = H_articleEntry.getIndexFromUri(
-                        mContext.getContentResolver().insert(H_articleEntry.CONTENT_URI,
-                                articleValues));
-            }
-
-            // Or just return _id of existing row
-            else {
-                _id = c.getLong(c.getColumnIndex(H_articleEntry._ID));
-            }
-        } finally {
-            c.close();
-        }
-
-        return _id;
     }
 
     // Displays progress bar
@@ -90,32 +63,45 @@ public class DownloadImageTask extends AsyncTask<Integer, Void, Article> {
     /** The system calls this to perform work in a worker thread and
      * delivers it the parameters given to AsyncTask.execute() */
     protected Article doInBackground(Integer... headlinePageNumber) {
+        // Get basic article info from internet
         Article article = FetchHeadlineArticles.getArticles("featured",
                 headlinePageNumber[0]);
 
+        Cursor c = getH_articleLINK(article.getLink());
         try {
+            byte[] bytes;
+
             // Lowers resolution of images by subsampling image, saves memory & time
             BitmapFactory.Options a = new BitmapFactory.Options();
             a.inSampleSize = 2;
 
-            InputStream in = new URL(article.getImageURL()).openStream();
+            // Not found in database
+            if (c.getCount() == 0) {
+                // Download image from imageURL
+                InputStream in = new URL(article.getImageURL()).openStream();
 
-            // Store inputStream buffer contents in byte array through bytearrayoutputstream
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            IOUtils.copy(in, baos);
+                // Store inputStream buffer contents in byte array through bytearrayoutputstream
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                IOUtils.copy(in, baos);
+                bytes = baos.toByteArray();
 
-            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+                // Insert into database for quick loading later (_id starts with 1)
+                addH_article(article.getTitle(), article.getLink(), baos.toByteArray());
+            }
+            // Found in database, do not download image from internet
+            else {
+                c.moveToFirst();
+                bytes = c.getBlob(c.getColumnIndex(H_articleEntry.COLUMN_IMAGEBYTESTREAM));
+            }
+
+            ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
 
             // Save bitmap here
             article.setBitmap(BitmapFactory.decodeStream(bais, null, a));
-
-            // Insert into database for quick loading later (_id starts with 1)
-            ContentValues articleValues = new ContentValues();
-            articleValues.put(H_articleEntry.COLUMN_TITLE, article.getTitle());
-            articleValues.put(H_articleEntry.COLUMN_LINK, article.getLink());
-            articleValues.put(H_articleEntry.COLUMN_IMAGEBYTESTREAM, baos.toByteArray());
         } catch (IOException e) {
             Log.e("HEADLINE IMAGE DOWNLOAD", e.getMessage());
+        } finally {
+            if (c != null) c.close();
         }
 
         return article;
@@ -135,7 +121,7 @@ public class DownloadImageTask extends AsyncTask<Integer, Void, Article> {
         i.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent articlePageIntent = new Intent(mContext, ArticleActivity.class)
+                Intent articlePageIntent = new Intent(mCWrapper, ArticleActivity.class)
                         .putExtra(Intent.EXTRA_HTML_TEXT, result.getLink())
                         .putExtra(Intent.EXTRA_SHORTCUT_NAME, result.getTitle());
                 mFragment.startActivity(articlePageIntent);
@@ -150,5 +136,59 @@ public class DownloadImageTask extends AsyncTask<Integer, Void, Article> {
 
         // Make title visible
         textView.setVisibility(TextView.VISIBLE);
+    }
+
+    private Cursor getH_articleLINK(String link) {
+        return mCWrapper.getContentResolver().query(
+                H_articleEntry.CONTENT_URI,
+                null,
+                H_articleEntry.COLUMN_LINK + "=?",
+                new String[]{link},
+                null);
+    }
+
+    private Cursor getH_articleID(long _id) {
+        return mCWrapper.getContentResolver().query(
+                H_articleEntry.CONTENT_URI,
+                null,
+                H_articleEntry._ID + "=?",
+                new String[]{Long.toString(_id)},
+                null);
+    }
+
+    private long addH_article(String title, String link, byte[] imageByteStream) {
+        Log.e("addH_article", "HERE NOW!!!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
+        long _id = 0;
+
+        // Query database to see if article exists
+        Cursor c = getH_articleLINK(link);
+
+        try {
+            // Insert H_articleEntry if not found
+            if (c.getCount() == 0) {
+                ContentValues articleValues = new ContentValues();
+                articleValues.put(H_articleEntry.COLUMN_TITLE, title);
+                articleValues.put(H_articleEntry.COLUMN_LINK, link);
+                articleValues.put(H_articleEntry.COLUMN_IMAGEBYTESTREAM, imageByteStream);
+
+                _id = H_articleEntry.getIndexFromUri(
+                        mCWrapper.getContentResolver().insert(H_articleEntry.CONTENT_URI,
+                                articleValues));
+
+                Log.e("addH_article", "Article getting inserted~~~~~~~~~~~~~~~");
+            }
+
+            // Or just return _id of existing row
+            else {
+                _id = c.getLong(c.getColumnIndex(H_articleEntry._ID));
+
+                Log.e("addH_article", "Article already inserted~~~~~~~~~~~~~~~");
+            }
+        } finally {
+            if (c != null) c.close();
+        }
+
+        return _id;
     }
 }

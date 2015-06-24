@@ -84,8 +84,8 @@ public class HeadlineArtProvider extends ContentProvider {
 
         // 2) Use the addURI function to match each of the types.  Use the constants from
         // WeatherContract to help define the types to the UriMatcher.
-        uriMatcher.addURI(HeadlineArtContract.CONTENT_AUTHORITY, "h_articles", H_ARTICLES);
-        uriMatcher.addURI(HeadlineArtContract.CONTENT_AUTHORITY, "h_articles/#", H_ARTICLES_INDEX);
+        uriMatcher.addURI(HeadlineArtContract.CONTENT_AUTHORITY, "hArticles", H_ARTICLES);
+        uriMatcher.addURI(HeadlineArtContract.CONTENT_AUTHORITY, "hArticles/#", H_ARTICLES_INDEX);
 
         // 3) Return the new matcher!
         return uriMatcher;

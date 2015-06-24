@@ -31,7 +31,7 @@ import app.morningsignout.com.morningsignoff.HeadlineArtContract.*;
  */
 public class HeadlineDBHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
 
     static final String DATABASE_NAME = "morningsignout.db";
 
@@ -47,11 +47,11 @@ public class HeadlineDBHelper extends SQLiteOpenHelper {
                 // forecasting, it's reasonable to assume the user will want information
                 // for a certain date and all dates *following*, so the forecast data
                 // should be sorted accordingly.
-                H_articleEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                H_articleEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 
-                H_articleEntry.COLUMN_TITLE + "TEXT NOT NULL," +
-                H_articleEntry.COLUMN_LINK + "TEXT NOT NULL," +
-                H_articleEntry.COLUMN_IMAGEBYTESTREAM + "BLOB NOT NULL);";
+                H_articleEntry.COLUMN_TITLE + " TEXT NOT NULL," +
+                H_articleEntry.COLUMN_LINK + " TEXT NOT NULL," +
+                H_articleEntry.COLUMN_IMAGEBYTESTREAM + " NONE NOT NULL);";
 
         sqLiteDatabase.execSQL(SQL_CREATE_WEATHER_TABLE);
     }

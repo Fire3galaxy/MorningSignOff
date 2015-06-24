@@ -59,7 +59,7 @@ public class HeadlineArtContract {
         public static final String TABLE_NAME = "h_articles";
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_LINK = "link";
-        public static final String COLUMN_IMAGEBYTESTREAM = "image bytestream";
+        public static final String COLUMN_IMAGEBYTESTREAM = "imagebytestream";
 
         public static Uri buildHArticlesUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
