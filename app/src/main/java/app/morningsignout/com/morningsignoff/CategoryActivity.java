@@ -202,7 +202,10 @@ class CategoryAdapter extends BaseAdapter{
     public View getView(int i, View view, final ViewGroup viewGroup){
         // crate a new rowItem object here
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View row = inflater.inflate(R.layout.single_row, viewGroup, false);
+        View row;
+
+        if (view == null) row = inflater.inflate(R.layout.single_row, viewGroup, false);
+        else row = view;
 
         // Get the description, image and title of the row item
         TextView title = (TextView) row.findViewById(R.id.textView);

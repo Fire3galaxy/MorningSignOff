@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/row_item_layout"
-    >
+    android:background="@drawable/row_item_layout">
 
     <ImageView
         android:src="@drawable/list_item_1"
@@ -13,7 +12,8 @@
         android:id="@+id/imageView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:background="#00ffffff" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,7 +26,8 @@
         android:layout_toRightOf="@+id/imageView"
         android:layout_toEndOf="@+id/imageView"
         android:layout_alignTop="@+id/imageView"
-        android:layout_above="@+id/textView2" />
+        android:layout_above="@+id/textView2"
+        android:background="#00ffffff" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -39,7 +40,8 @@
         android:layout_toRightOf="@+id/imageView"
         android:layout_alignRight="@+id/textView"
         android:layout_alignEnd="@+id/textView"
-        android:layout_alignBottom="@+id/imageView" />
+        android:layout_alignBottom="@+id/imageView"
+        android:background="#00ffffff" />
 
     <ProgressBar
         style="?android:attr/progressBarStyle"
@@ -49,6 +51,7 @@
         android:layout_alignTop="@+id/textView"
         android:layout_centerHorizontal="true"
         android:indeterminate="true"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:background="#00ffffff" />
 
 </RelativeLayout>
