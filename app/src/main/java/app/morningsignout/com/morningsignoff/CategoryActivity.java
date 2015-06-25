@@ -174,15 +174,10 @@ class CategoryAdapter extends BaseAdapter{
         // the context is needed for creating LayoutInflater
         context = c;
 //        Resources res = c.getResources();
+        pageNum = 0;
 
-        for(int i = 0; i < articles.size(); ++i){
-            String title = articles.get(i).getTitle();
-            String description = articles.get(i).getDescription();
-            String link = articles.get(i).getLink();
-            String imageURL = articles.get(i).getImageURL();
-
-            list.add(new SingleRow(title, description, imageURL, link));
-        }
+        // Load article items into SingleRow arraylist one at a time (image downloading)
+        loadMoreItems(articles, 1);
     }
 
     // Get the number of row items
@@ -250,11 +245,8 @@ class CategoryAdapter extends BaseAdapter{
             Log.e("row" + list.size(), "eeeeeeee");
 
             for (int i = 0; i < moreArticles.size(); ++i) {
-                String title = moreArticles.get(i).getTitle();
-                String description = moreArticles.get(i).getDescription();
-                String link = moreArticles.get(i).getLink();
-                Bitmap image = moreArticles.get(i).getImage();
-                list.add(new SingleRow(title, description, image, link));
+                list.add(SingleRow.newInstance(moreArticles.get(i)));
+                notifyDataSetChanged();
             }
         }
     }

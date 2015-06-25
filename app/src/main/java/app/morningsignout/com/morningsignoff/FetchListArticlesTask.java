@@ -57,7 +57,6 @@ public class FetchListArticlesTask extends AsyncTask<String, Void, List<Article>
     protected void onPreExecute() {
         // initialize the batch number to be 1 when no articles are loaded
 
-
     }
 
     // takes in the category name as a sufix to the URL, ex. healthcare/  and call getArticles()
@@ -87,16 +86,11 @@ public class FetchListArticlesTask extends AsyncTask<String, Void, List<Article>
         // If the adapter is not set, then create the adapter and add the articles
         // If the adapter is set, then add more articles to the list then notify the data change
         if(listView.getAdapter() == null) {
-            CategoryAdapter categoryAdapter = new CategoryAdapter(c, articles.subList(0, 1));
+            CategoryAdapter categoryAdapter = new CategoryAdapter(c, articles);
             listView.setAdapter(categoryAdapter);
-            for (int i = 1; i < articles.size(); i++) {
-                categoryAdapter.getList().add(SingleRow.newInstance(articles.get(i)));
-                categoryAdapter.notifyDataSetChanged();
-            }
         } else {
             CategoryAdapter categoryAdapter = (CategoryAdapter) listView.getAdapter();
             categoryAdapter.loadMoreItems(articles, pageNum);
-            categoryAdapter.notifyDataSetChanged();
         }
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -160,7 +154,7 @@ public class FetchListArticlesTask extends AsyncTask<String, Void, List<Article>
         // For getting article titles, descriptions, and images. See class Article
         Parser p = new Parser();
         String urlPath;
-        if(arg.equals("latest/")){
+        if (arg.equals("latest/")){
             urlPath = "http://morningsignout.com/latest/page/" + pageNum;
         }else {
             urlPath = "http://morningsignout.com/category/" + arg +"page/" + pageNum;

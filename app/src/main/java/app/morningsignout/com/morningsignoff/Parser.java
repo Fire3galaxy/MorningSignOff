@@ -43,7 +43,8 @@ public class Parser {
 		ret = ret.replace("&#8220;", "\u201C");
 		ret = ret.replace("&#8221;", "\u201D");
 		ret = ret.replace("&#8230;", "\u2026");
-		
+		ret = ret.replace("&It;", "<");
+
 		return ret;
 	}
 }
