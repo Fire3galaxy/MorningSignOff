@@ -195,13 +195,20 @@ public class FetchListArticlesTask extends AsyncTask<String, Void, List<Article>
 
                         articlesList.get(ind).setTitle(title);
                         articlesList.get(ind).setLink(link);
-                    } // Image URL
-                    else if (inputLine.trim().contains("<img")) {
-                        String imageURL = p.getImageURL(inputLine);
+                    } // Image URL and/or Author
+                    else if (inputLine.trim().contains("<img") || inputLine.trim().contains("<h2>")) {
+                        if (inputLine.trim().contains("<img")) {
+                            String imageURL = p.getImageURL(inputLine);
+                            articlesList.get(ind).setImageURL(imageURL);
+                        }
+
+                        if (inputLine.trim().contains("<h2>")) {
+                            String author = p.getAuthor(inputLine);
+                            articlesList.get(ind).setAuthor(author);
+                        }
 
                         // convert string to bitmap then feed to each article
 //                        Bitmap image = downloadBitmap(imageURL);
-                        articlesList.get(ind).setImageURL(imageURL);
                     }
                     // Description of article
                     else if (inputLine.contains("<p>")) {

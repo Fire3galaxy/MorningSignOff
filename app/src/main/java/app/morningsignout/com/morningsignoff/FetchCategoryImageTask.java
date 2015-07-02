@@ -57,6 +57,9 @@ public class FetchCategoryImageTask extends AsyncTask<Void, Void, Bitmap> {
         description.setText(sr.description);
 
         // imageView image
+        // Preserve aspect ratio of image
+        image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        image.setCropToPadding(true);
         image.setImageBitmap(b);
 
         // Remove progressBar and make article-related elements visible
@@ -86,10 +89,12 @@ public class FetchCategoryImageTask extends AsyncTask<Void, Void, Bitmap> {
 
             InputStream inputStream = urlConnection.getInputStream();
             if (inputStream != null) {
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                // Lowers resolution of images by subsampling image, saves memory & time
+                BitmapFactory.Options a = new BitmapFactory.Options();
+                a.inSampleSize = 1;
 
-                // rescale the bitmap
-                return Bitmap.createScaledBitmap(bitmap, bitmapDimension, bitmapDimension, true);
+                // Create bitmap from stream
+                return BitmapFactory.decodeStream(inputStream, null, a);
             }
         } catch (Exception e) {
             Log.w("ImageDownloader", "Error downloading image from " + url);

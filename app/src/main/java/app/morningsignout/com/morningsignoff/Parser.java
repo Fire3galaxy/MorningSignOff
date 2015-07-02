@@ -37,8 +37,17 @@ public class Parser {
         if (beginInd != -1 && endInd != -1) return replaceUnicode(s.substring(beginInd, endInd));
         return null;
     }
-	public String replaceUnicode(String s) {
+	public String getAuthor(String s) {
+		int beginInd = s.indexOf("rel=\"author\">") + 13, endInd = s.indexOf("</a>", beginInd);
+
+		if (beginInd != -1 && endInd != -1) return replaceUnicode(s.substring(beginInd, endInd));
+		return null;
+	}
+	public static String replaceUnicode(String s) {
 		String ret = s;
+        ret = ret.replace("&#038;", "\u0026"); // ampersand
+        ret = ret.replace("&amp;", "\u0026"); // ampersand
+        ret = ret.replace("&#8211;", "\u2013"); // en dash
 		ret = ret.replace("&#8217;", "\u2019");
 		ret = ret.replace("&#8220;", "\u201C");
 		ret = ret.replace("&#8221;", "\u201D");

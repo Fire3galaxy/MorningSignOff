@@ -33,13 +33,6 @@ public class ArticleActivity extends ActionBarActivity {
             article.loadUrl(getIntent().getStringExtra(Intent.EXTRA_HTML_TEXT));
         }
 
-        // Possibility 2, A webview that directly shows the article page
-        else {
-            setTitle("Morning Signout");
-            WebView article = (WebView) findViewById(R.id.webView_article);
-            article.loadUrl(getIntent().getStringExtra(Intent.EXTRA_HTML_TEXT));
-        }
-
         // Possibility 1, parsing the article page to show later
 //        ArticleFragment newArticle = new ArticleFragment();
 //        Bundle args = new Bundle();

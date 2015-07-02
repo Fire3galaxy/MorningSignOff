@@ -153,8 +153,12 @@ class SingleRow{
     }
 
     static SingleRow newInstance(Article article) {
+        String author;
+        if (article.getAuthor() == null) author = "";
+        else author = "By " + article.getAuthor();
+
         return new SingleRow(article.getTitle(),
-                article.getDescription(),
+                author,
                 article.getImageURL(),
                 article.getLink());
     }
@@ -221,6 +225,10 @@ class CategoryAdapter extends BaseAdapter{
             SingleRow rowTemp = list.get(i);
             title.setText(rowTemp.title);
             description.setText(rowTemp.description);
+
+            // Cropping image to preserve aspect ratio
+            image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            image.setCropToPadding(true);
             image.setImageBitmap(rowTemp.image);
         }
 

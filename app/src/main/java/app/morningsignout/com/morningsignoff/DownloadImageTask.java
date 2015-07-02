@@ -74,7 +74,7 @@ public class DownloadImageTask extends AsyncTask<Integer, Void, Article> {
 
             // Lowers resolution of images by subsampling image, saves memory & time
             BitmapFactory.Options a = new BitmapFactory.Options();
-            a.inSampleSize = 2;
+            a.inSampleSize = 1;
 
             // Not found in database
             if (c.getCount() == 0) {
