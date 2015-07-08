@@ -8,9 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
-import android.R.*;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 
 // Activity class created in FetchListArticleTask when user clicks on an article from the ListView
 public class ArticleActivity extends ActionBarActivity {
@@ -25,25 +26,28 @@ public class ArticleActivity extends ActionBarActivity {
         // Set the title for this activity to the article title
         Intent intent = getIntent();
         if (intent != null) {
+            // Setting variable category and title of activity
             category = getIntent().getStringExtra(Intent.EXTRA_TITLE);
             setTitle(getIntent().getStringExtra(Intent.EXTRA_SHORTCUT_NAME));
-            // Possibility 2, A webview that directly shows the article page
+
+            // Disabling title text of actionbar
+            this.getSupportActionBar().setDisplayShowCustomEnabled(true);
+            this.getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+            // Setting title of actionbar to article's name FIXME: No title vs ellipsized title vs something else?
+            View v = getLayoutInflater().inflate(R.layout.title, null);
+
+            ((TextView) v.findViewById(R.id.title_actionBar)).setText(getTitle());
+            v.setSelected(true);
+
+            this.getSupportActionBar().setCustomView(v);
+
+            // Getting article from URL and stripping away extra parts of website for better reading
             WebView article = (WebView) findViewById(R.id.webView_article);
             article.setWebViewClient(new ArticleWebViewClient());
-            article.loadUrl(getIntent().getStringExtra(Intent.EXTRA_HTML_TEXT));
+            // article.loadUrl(getIntent().getStringExtra(Intent.EXTRA_HTML_TEXT));
+            new URLToMobileArticle(article).execute(getIntent().getStringExtra(Intent.EXTRA_HTML_TEXT));
         }
-
-        // Possibility 1, parsing the article page to show later
-//        ArticleFragment newArticle = new ArticleFragment();
-//        Bundle args = new Bundle();
-//        args.putString("HTML_LINK", getIntent().getStringExtra(Intent.EXTRA_HTML_TEXT));
-//        newArticle.setArguments(args);
-
-//        if (savedInstanceState == null) {
-//            getSupportFragmentManager().beginTransaction()
-//                    .add(R.id.container_article, newArticle)
-//                    .commit();
-//        }
     }
 
 
