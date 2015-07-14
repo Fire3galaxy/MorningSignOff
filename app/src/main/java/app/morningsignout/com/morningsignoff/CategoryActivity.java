@@ -2,34 +2,24 @@ package app.morningsignout.com.morningsignoff;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import android.R.*;
 
 // Category page activity
 public class CategoryActivity extends ActionBarActivity {
@@ -168,31 +158,37 @@ class SingleRow{
 // of those articles in the category page as row items
 // It is created in the FetchListArticlesTask which is called in CategoryActivity
 class CategoryAdapter extends BaseAdapter{
-    ArrayList<SingleRow> list;
+    ArrayList<SingleRow> articles;
     Context context;
+    private int loadedSize;
     private int pageNum;
     private int maxStoredArticles = 24;
 
     CategoryAdapter(Context c, List<Article> articles){
-        list = new ArrayList<SingleRow>();
+        this.articles = new ArrayList<SingleRow>();
         // the context is needed for creating LayoutInflater
         context = c;
 //        Resources res = c.getResources();
         pageNum = 0;
 
-        // Load article items into SingleRow arraylist one at a time (image downloading)
         loadMoreItems(articles, 1);
+
+        // FIXME: Actually, just post a "no articles" thing or a "is your internet on?" or something
+        if (articles.isEmpty()) {
+            Log.e("CategoryAdapter", "Error: empty articles in initialization!");
+            System.exit(-1);
+        }
     }
 
     // Get the number of row items
     @Override
     public int getCount(){
-        return list.size();
+        return articles.size();
     }
 
     @Override
     public Object getItem(int i){
-        return list.get(i);
+        return articles.get(i);
     }
 
     // Get the item id, since no database, the id is its assignment
@@ -217,15 +213,22 @@ class CategoryAdapter extends BaseAdapter{
         ImageView image = (ImageView) row.findViewById(R.id.imageView);
         ProgressBar pb = (ProgressBar) row.findViewById(R.id.progressBarSingleRow);
 
-        // Load data into row element
-        if (list.get(i).image == null)
-            new FetchCategoryImageTask(list.get(i), title, description, image, pb).execute();
-        else {
-            // Set the values of the rowItem
-            SingleRow rowTemp = list.get(i);
-            title.setText(rowTemp.title);
-            description.setText(rowTemp.description);
+        AdapterObject holder = new AdapterObject();
+        holder.adapter = this;  // for notifyDataSetChanged
+        holder.title = title;
+        holder.description = description;
+        holder.image = image;
+        holder.pb = pb;
 
+        // Set the values of the rowItem
+        SingleRow rowTemp = articles.get(i);
+        title.setText(rowTemp.title);
+        description.setText(rowTemp.description);
+
+        // Load image into row element
+        if (articles.get(i).image == null)  // download
+            new FetchCategoryImageTask(articles.get(i), holder).execute();
+        else {                              // set saved image
             // Cropping image to preserve aspect ratio
             image.setScaleType(ImageView.ScaleType.CENTER_CROP);
             image.setCropToPadding(true);
@@ -236,13 +239,13 @@ class CategoryAdapter extends BaseAdapter{
     }
 
     // This function is called along with .notifyDataSetChange() in Asynctask's onScrollListener function
-    // when the viewers scroll to the bottom of the list
+    // when the viewers scroll to the bottom of the articles
     public void loadMoreItems(List<Article> moreArticles, int pageNum){
         // If there are more than 24 articles, empty first 12 first then add 12 more articles in
-//        int numOfArticles = list.size();
+//        int numOfArticles = articles.size();
 //        if(numOfArticles >= maxStoredArticles){
 //            for(int i = 0; i < moreArticles.size(); i++){
-//                list.remove(i);
+//                articles.remove(i);
 //            }
 //        }
 
@@ -253,16 +256,16 @@ class CategoryAdapter extends BaseAdapter{
             // Testing CategoryAdapter
             Log.e("loading more" + this.pageNum, "eeeeeeee");
             Log.e("Moresize" + moreArticles.size(), "eeeeeeee");
-            Log.e("row" + list.size(), "eeeeeeee");
+            Log.e("row" + articles.size(), "eeeeeeee");
 
             for (int i = 0; i < moreArticles.size(); ++i) {
-                list.add(SingleRow.newInstance(moreArticles.get(i)));
+                articles.add(SingleRow.newInstance(moreArticles.get(i)));
                 notifyDataSetChanged();
             }
         }
     }
 
-    public ArrayList<SingleRow> getList() {
-        return list;
+    public ArrayList<SingleRow> getArticles() {
+        return articles;
     }
 }

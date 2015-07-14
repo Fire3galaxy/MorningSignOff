@@ -19,27 +19,28 @@ import java.net.URL;
  */
 public class FetchCategoryImageTask extends AsyncTask<Void, Void, Bitmap> {
     SingleRow sr;
+    CategoryAdapter caller;
     TextView title;
     TextView description;
     ImageView image;
     ProgressBar pb;
 
-    public FetchCategoryImageTask(SingleRow singleRow, TextView title, TextView description,
-                                  ImageView image, ProgressBar pb) {
-        sr = singleRow;
-        this.title = title;
-        this.description = description;
-        this.image = image;
-        this.pb = pb;
+    public FetchCategoryImageTask(SingleRow singleRow, AdapterObject holder) {
+        this.sr = singleRow;
+        this.caller = holder.adapter;
+        this.title = holder.title;
+        this.description = holder.description;
+        this.image = holder.image;
+        this.pb = holder.pb;
     }
 
     @Override
     protected void onPreExecute() {
-        // Set loading progress bar and make other elements invisible
-        pb.setVisibility(ProgressBar.VISIBLE);
-
-        title.setVisibility(TextView.INVISIBLE);
-        description.setVisibility(TextView.INVISIBLE);
+//        // Set loading progress bar and make other elements invisible
+//        pb.setVisibility(ProgressBar.VISIBLE);
+//
+//        title.setVisibility(TextView.INVISIBLE);
+//        description.setVisibility(TextView.INVISIBLE);
         image.setVisibility(ImageView.INVISIBLE);
     }
 
@@ -50,11 +51,11 @@ public class FetchCategoryImageTask extends AsyncTask<Void, Void, Bitmap> {
 
     @Override
     protected void onPostExecute(final Bitmap b) {
-        // textView title
-        title.setText(sr.title);
-
-        // textView description
-        description.setText(sr.description);
+//        // textView title
+//        title.setText(sr.title);
+//
+//        // textView description
+//        description.setText(sr.description);
 
         // imageView image
         // Preserve aspect ratio of image
@@ -62,11 +63,11 @@ public class FetchCategoryImageTask extends AsyncTask<Void, Void, Bitmap> {
         image.setCropToPadding(true);
         image.setImageBitmap(b);
 
-        // Remove progressBar and make article-related elements visible
+//        // Remove progressBar and make article-related elements visible
         pb.setVisibility(ProgressBar.GONE);
-
-        title.setVisibility(TextView.VISIBLE);
-        description.setVisibility(TextView.VISIBLE);
+//
+//        title.setVisibility(TextView.VISIBLE);
+//        description.setVisibility(TextView.VISIBLE);
         image.setVisibility(ImageView.VISIBLE);
 
         // Save image to SingleRow object for categoryAdapter's getView()
